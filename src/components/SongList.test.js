@@ -25,7 +25,7 @@ describe("when onclick on any song is called", () => {
     jest.spyOn(songActions, "selectSong").mockReturnValue();
   });
 
-  it("when handleUsersSearchInputClear is called", () => {
+  it("when on click on component is called", () => {
     const data = { title: "song1", duration: "4.30" };
     expect(store.dispatch).toHaveBeenCalledWith(songActions.selectSong(data));
   });
