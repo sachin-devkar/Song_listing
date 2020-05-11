@@ -1,32 +1,26 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
-import { combineReducers, createStore } from "redux";
-import SongList from "./SongList";
-import * as songActions from "../actions";
+import { shallow } from "enzyme";
+import { SongList } from "./SongList";
 
-const initialState = {};
-let component;
-let store;
-store = (state = initialState) => createStore(combineReducers(reducers), state);
-describe("<songList/>", () => {
-  beforeEach(() => {
-    store.dispatch = jest.fn();
-    component = shallow(<songList store={store} />);
+export const songs = [
+  { title: "song1", duration: "4.30" },
+  { title: "song3", duration: "3.30" },
+  { title: "song4", duration: "5.30" },
+  { title: "song5", duration: "8.30" },
+];
+
+const props = { songs };
+
+describe("Songlist", () => {
+  const app = shallow(<SongList {...props} />);
+
+  it("renders the correct number of songs", () => {
+    expect(app.find("button").length).toEqual(songs.length);
   });
 
-  test("renders the default correctly", () => {
-    expect(component).toMatchSnapshot();
-  });
-});
-
-describe("when onclick on any song is called", () => {
-  const isActive = 1;
-  beforeEach(() => {
-    jest.spyOn(songActions, "selectSong").mockReturnValue();
-  });
-
-  it("when on click on component is called", () => {
-    const data = { title: "song1", duration: "4.30" };
-    expect(store.dispatch).toHaveBeenCalledWith(songActions.selectSong(data));
+  it("title the songs correctly", () => {
+    app.find("#content").forEach((Title, index) => {
+      expect(Title.text()).toEqual(songs[index].title);
+    });
   });
 });
